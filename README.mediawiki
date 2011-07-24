@@ -1,0 +1,7 @@
+== Game Analytics with Django ==
+
+A simple example leveraging Django to gather and analyze player behavior. In this example the player's progress through a quest is tracked. This data can then be visualized. The example is also meant to showcase the ability of Django to create such a site, and is written to utilize many of its features.
+
+The source code itself is public domain minus the [http://jquery.org/ JQuery] and [http://code.google.com/p/flot/ flot] libraries which are used for creating the visualizations.
+
+Information on the design choices, and a exploration of Django can be found in the accompanying article on #AltDevBlogADay.

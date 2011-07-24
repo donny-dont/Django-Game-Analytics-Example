@@ -1,0 +1,5 @@
+# Compiled Python files
+*.pyc
+
+# SQLite Databases
+*.db

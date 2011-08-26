@@ -15,6 +15,6 @@ QUEST_STATUS = (
 class QuestState(models.Model):
 	player = models.ForeignKey(Player)
 	quest = models.ForeignKey(Quest)
-	status = models.IntegerField(choices=QUEST_STATUS)
-	start_time = models.IntegerField()
-	end_time = models.IntegerField()
+	status = models.IntegerField(choices=QUEST_STATUS, null=True)
+	start_time = models.IntegerField(null=True)
+	end_time = models.IntegerField(null=True)

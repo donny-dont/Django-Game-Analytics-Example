@@ -3,4 +3,4 @@ from models import *
 
 admin.site.register(Player)
 admin.site.register(Quest)
-admin.site.register(QuestProgress)
+admin.site.register(QuestState)

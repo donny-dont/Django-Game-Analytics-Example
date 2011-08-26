@@ -1,0 +1,81 @@
+body {
+	width:960px;
+	margin:0px auto;
+	background:#EFEFEF;
+	font-family:Arial, sans-serif;
+}
+
+#navigation {
+	width:952px;
+	padding:4px;
+	margin-bottom:10px;
+	border-radius:5px;
+	text-align:right;
+	font-weight:bold;
+	color:#FFFFFF;
+	background:#000000;
+}
+
+#wrap
+{
+	margin:0px auto;
+}
+
+#navigation select {
+	width:250px;
+}
+
+#content {
+	float:right;
+	width:680px;
+	border:2px solid #C4C4C4;
+	padding:10px;
+	border-radius:5px;
+	background:#FFFFFF;
+}
+
+#sidebar {
+	float:left;
+	width:224px;
+	border:2px solid #C4C4C4;
+	border-radius:5px;
+	background:#FFFFFF;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px;
+}
+
+.sidebar_item {
+	width:100%;
+	margin:0px auto;
+	height:28px;
+	border-bottom:2px dotted #AAAAAA;
+}
+
+.sidebar_item a { text-decoration:none; }
+.sidebar_item a:link { color:#999999; }
+.sidebar_item a:visited { color:#999999; }
+.sidebar_item a:hover { color:#999999; }
+.sidebar_item a:active { color:#999999; }
+
+.selected {
+	background:#AAAAAA;
+	border:none;
+	border-radius:2px;
+}
+
+.selected a { text-decoration:none; }
+.selected a:link { color:#FFFFFF; }
+.selected a:visited { color:#FFFFFF; }
+.selected a:hover { color:#FFFFFF; }
+.selected a:active { color:#FFFFFF; }
+
+.players {
+	padding:4px 16px 4px 32px;
+	background:url(../images/player_icon.png) no-repeat;
+}
+
+.quests {
+	padding:4px 16px 4px 32px;
+	background:url(../images/quest_icon.png) no-repeat;
+}

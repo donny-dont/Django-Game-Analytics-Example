@@ -1,0 +1,18 @@
+[
+	{
+		"model": "game.quest",
+		"pk": 1,
+		"fields":
+		{
+			"name": "Fetch my slippers"
+		}
+	},
+	{
+		"model": "game.quest",
+		"pk": 2,
+		"fields":
+		{
+			"name": "Make me a sammich"
+		}
+	}
+]

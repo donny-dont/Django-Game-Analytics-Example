@@ -4,7 +4,8 @@
 		"pk": 1,
 		"fields":
 		{
-			"name": "Fetch my slippers"
+			"name": "Fetch my slippers",
+			"code": "FET0001"
 		}
 	},
 	{
@@ -12,7 +13,8 @@
 		"pk": 2,
 		"fields":
 		{
-			"name": "Make me a sammich"
+			"name": "Make me a sammich",
+			"code": "FET0002"
 		}
 	}
 ]

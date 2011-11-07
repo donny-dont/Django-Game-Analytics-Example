@@ -9,6 +9,155 @@
 	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.flot.min.js"></script>
 	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.flot.pie.min.js"></script>
+	
+	<script type="text/javascript">
+	$(function () {
+	/*
+		var data = [
+			{ label: "Accepted" , data: 200 },
+			{ label: "Declined" , data:  50 },
+			{ label: "Completed", data: 100 }
+		]
+	*/	
+		// Query for the quest statistics
+		var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
+		
+		$.plot($('#completion_times'), [{
+            data: d2,
+            bars: { show: true }
+        }]);
+		
+		// Create the status information
+		var status_options =
+		{
+			series:
+			{
+				pie: { show: true }
+			}
+		}
+		
+		var status_data = [];
+		
+		$.plot($('#completed_pie'), status_data, status_options);
+		
+		function onStatisticsDataReceived(statistics)
+		{
+			$('#average_completion').text(statistics.average_completion);
+			$('#shortest_completion').text(statistics.shortest_completion);
+			$('#longest_completion').text(statistics.longest_completion);
+			
+			$.plot($('#completed_pie'), statistics.status, status_options);
+		}
+		
+		var test1 =
+		{
+			'average_completion' : '1:34:00',
+			'shortest_completion': '0:05:00',
+			'longest_completion' : '5:22:00',
+			'status':
+			[
+				{ label: "Accepted" , data: 100 },
+				{ label: "Declined" , data: 500 },
+				{ label: "Completed", data: 350 }
+			]
+		};
+		
+		var test2 =
+		{
+			'average_completion' : '2:44:00',
+			'shortest_completion': '0:15:00',
+			'longest_completion' : '9:22:00',
+			'status':
+			[
+				{ label: "Accepted" , data: 200 },
+				{ label: "Declined" , data:  50 },
+				{ label: "Completed", data: 100 }
+			]
+		};
+		
+		onStatisticsDataReceived(test1);
+		
+		// Trigger request when the Quest option changes
+		$('#quests').change(function() {
+			$.ajax({
+				url: '/quest_statistics/',
+				method: 'GET',
+				dataType: 'json',
+				success: onStatisticsDataReceived
+			});
+		});
+	});
+	</script>
+	<style type="text/css">
+	
+	.graph_element
+	{
+		width:675px;
+		border:2px solid #DDDDDD;	
+		margin-bottom:10px;
+	}
+	
+	.graph_header
+	{
+		font-weight:bold;
+		width:665px;
+		padding:5px;
+		background: #666666;
+		color: #FFFFFF;	
+	}
+	
+	.bar_graph
+	{
+		margin:10px;
+		height:275px;
+	}
+	
+	.dashboard_element
+	{
+		width:330px;
+		height:258px;
+		border:2px solid #DDDDDD;
+	}
+	
+	.dashboard_header
+	{
+		font-weight:bold;	
+		width:320px;
+		padding:5px;
+		background: #666666;
+		color: #FFFFFF;
+	}
+	
+	.dashboard_element h2
+	{
+		background:#AAAAA;
+	}
+	
+	.pie_graph
+	{
+		height:215px;
+		margin:10px auto;
+	}
+	
+	.statistic_table
+	{
+		width: 310px;
+		margin:0px auto;
+	}
+	
+	.statistic_text
+	{
+		font-weight:bold;
+		text-align: right;
+		width: 70%;
+	}
+	
+	.statistic_value
+	{
+		text-align: center;
+	}
+	
+	</style>
 </head>
 <body>
 	<div id="header">
@@ -16,9 +165,9 @@
 	</div>
 	<div id="navigation">
 		Current Quest:
-		<select>
-			<option>Test1</option>
-			<option>Test2</option>
+		<select id="quests">
+			<option value="0">Test1</option>
+			<option value="1">Test2</option>
 		</select>
 	</div>
 	<div id="sidebar">
@@ -34,22 +183,48 @@
 		</div>
 	</div>
 	<div id="content">
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
-		<div>Testing testing</div>
+		<div class="graph_element">
+			<div class="graph_header">Completion Times</div>
+			<div id="completion_times" class="bar_graph"></div>
+		</div>
+		<div class="dashboard_element" style="float: left">
+			<div class="dashboard_header">Overview</div>
+			<table class="statistic_table">
+				<tr>
+					<td class="statistic_text">Quest Accepted:</td>
+					<td id="accepted_count" class="statistic_value"></td>
+				</tr>
+				<tr>
+					<td class="statistic_text">Quest Rejected:</td>
+					<td id="rejected_count" class="statistic_value"></td>
+				</tr>
+				<tr>
+					<td class="statistic_text">Quest Completed:</td>
+					<td id="completed_count" class="statistic_value"></td>
+				</tr>
+				<tr>
+					<td class="statistic_text">Quest Not Encountered:</td>
+					<td id="not_encountered_count" class="statistic_value"></td>
+				</tr>
+				
+				<tr>
+					<td class="statistic_text">Average Completion Time:</td>
+					<td id="average_completion" class="statistic_value"></td>
+				</tr>
+				<tr>
+					<td class="statistic_text">Shortest Completion Time:</td>
+					<td id="shortest_completion" class="statistic_value"></td>
+				</tr>
+				<tr>
+					<td class="statistic_text">Longest Completion Time:</td>
+					<td id="longest_completion" class="statistic_value"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="dashboard_element" style="float: right;">
+			<div class="dashboard_header">Completed</div>
+			<div id="completed_pie" class="pie_graph"></div>
+		</div>
 	</div>
 </body>
 </html>

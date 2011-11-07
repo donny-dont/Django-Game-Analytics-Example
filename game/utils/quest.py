@@ -1,25 +1,42 @@
+import re
+import logging
+from django.db import models
 from game.models import *
 
-def log_quest_progress(time, player_id, quest_id, description):
+quest_regex = re.compile('(?P<code>\w+)\s+(?P<status>ACCEPTED|DECLINED|COMPLETED)')
 
-	player = Player.objects.get(id=player_id)
-	quest = Quest.objects.get(id=quest_id)
+logger = logging.getLogger(__name__)
+
+def log_quest_progress(time, player_id, message):
 	
-	print player
-	print quest.name
+	m = quest_regex.match(message)
 	
-	quest_state = QuestState.objects.get_or_create(player=player, quest=quest)
+	if m:
+		quest_code = m.group('code')
+		print quest_code
 		
-	if description == 'ACCEPTED':
-		#quest_state.status = 2
-		quest_state.start_time = time
-	elif description == 'DECLINED':
-		print quest_state.player
-		#quest_state.status = 1
-	elif description == 'COMPLETED':
-		#quest_state.status = 3
-		quest_state.end_time = time
+		try:
+			player = Player.objects.get(id=player_id)
+			quest = Quest.objects.get(code=quest_code)
+		
+			quest_state, created = QuestState.objects.get_or_create(player=player, quest=quest)
+			
+			status = m.group('status')
+			
+			if (status == 'DECLINED'):
+				quest_state.status = QuestState.DECLINED_STATUS
+			elif (status == 'ACCEPTED'):
+				quest_state.status = QuestState.ACCEPTED_STATUS
+				quest_state.start_time = time.total_seconds()
+			else:
+				quest_state.status = QuestState.COMPLETED_STATUS
+				quest_state.end_time = time.total_seconds()
+		
+			quest_state.save()
+			
+		except Player.DoesNotExist as e:
+			logger.error("Player does not exist")
+		except Quest.DoesNotExist as e:
+			logger.error("Quest does not exist")
 	else:
-		print description
-		
-	quest_state.save()
+		logger.error("Invalid message")

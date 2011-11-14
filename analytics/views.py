@@ -4,10 +4,23 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseBadRequest
 from models import *
+from game.models import *
 import random
 
 def quests(request):
-	return render_to_response('base.html', context_instance=RequestContext(request))
+	quests = Quest.objects.all()
+
+	return render_to_response(
+		'quest_statistics.html',
+		{ 'quests': quests, 'quest_selected': True},
+		context_instance=RequestContext(request))
+		
+def players(request):
+	return render_to_response(
+		'player_statistics.html',
+		{ 'players_selected': True},
+		context_instance=RequestContext(request))
+	
 
 def to_date(year_str, month_str, day_str):
 	year = int(year_str)
@@ -23,8 +36,12 @@ def player_statistics(request, start_year, start_month, start_day, end_year, end
 	if (start_date < end_date):
 		player_statistics = PlayerStatistics.objects.filter(date__range=(start_date, end_date))
 	
-		if player_statistics.exists():
-			return HttpResponse(simplejson.dumps(player_statistics), mimetype='application/javascript')
+		response = []
+		
+		for statistic in player_statistics:
+			response.append({'date': str(statistic.date), 'count': statistic.count})
+
+		return HttpResponse(simplejson.dumps(response), mimetype='application/javascript')
 	
 	return HttpResponseBadRequest()
 	

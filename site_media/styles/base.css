@@ -7,6 +7,7 @@ body {
 
 #navigation {
 	width:952px;
+	height:25px;
 	padding:4px;
 	margin-bottom:10px;
 	border-radius:5px;
@@ -78,4 +79,61 @@ body {
 .quests {
 	padding:4px 16px 4px 32px;
 	background:url(../images/quest_icon.png) no-repeat;
+}
+
+.graph_element {
+	width:675px;
+	border:2px solid #DDDDDD;	
+	margin-bottom:10px;
+}
+
+.graph_header {
+	font-weight:bold;
+	width:665px;
+	padding:5px;
+	background: #666666;
+	color: #FFFFFF;	
+}
+
+.bar_graph {
+	margin:10px;
+	height:275px;
+}
+
+.dashboard_element {
+	width:330px;
+	height:258px;
+	border:2px solid #DDDDDD;
+}
+
+.dashboard_header {
+	font-weight:bold;	
+	width:320px;
+	padding:5px;
+	background: #666666;
+	color: #FFFFFF;
+}
+
+.dashboard_element h2 {
+	background:#AAAAA;
+}
+
+.pie_graph {
+	height:215px;
+	margin:10px auto;
+}
+
+.statistic_table {
+	width: 310px;
+	margin:0px auto;
+}
+
+.statistic_text {
+	font-weight:bold;
+	text-align: right;
+	width: 70%;
+}
+
+.statistic_value {
+	text-align: center;
 }

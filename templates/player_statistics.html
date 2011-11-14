@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block script_includes %}
+	<script type="text/javascript" src="{{ MEDIA_URL }}scripts/quest_statistics.js"></script>
+{% endblock %}
+
+{% block navigation %}
+{% endblock %}
+
+{% block content %}
+<div class="graph_element">
+	<div class="graph_header">Completion Times</div>
+	<div id="completion_times" class="bar_graph"></div>
+</div>
+<div class="dashboard_element" style="float: left">
+	<div class="dashboard_header">Overview</div>
+	<table class="statistic_table">
+		<tr>
+			<td class="statistic_text">Quest Accepted:</td>
+			<td id="accepted_count" class="statistic_value"></td>
+		</tr>
+		<tr>
+			<td class="statistic_text">Quest Rejected:</td>
+			<td id="rejected_count" class="statistic_value"></td>
+		</tr>
+		<tr>
+			<td class="statistic_text">Quest Completed:</td>
+			<td id="completed_count" class="statistic_value"></td>
+		</tr>
+		<tr>
+			<td class="statistic_text">Quest Not Encountered:</td>
+			<td id="not_encountered_count" class="statistic_value"></td>
+		</tr>
+		
+		<tr>
+			<td class="statistic_text">Average Completion Time:</td>
+			<td id="average_completion" class="statistic_value"></td>
+		</tr>
+		<tr>
+			<td class="statistic_text">Shortest Completion Time:</td>
+			<td id="shortest_completion" class="statistic_value"></td>
+		</tr>
+		<tr>
+			<td class="statistic_text">Longest Completion Time:</td>
+			<td id="longest_completion" class="statistic_value"></td>
+		</tr>
+	</table>
+</div>
+<div class="dashboard_element" style="float: right;">
+	<div class="dashboard_header">Completed</div>
+	<div id="completed_pie" class="pie_graph"></div>
+</div>
+{% endblock %}

@@ -6,7 +6,7 @@ from game.models import Player
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-		stats, created = PlayerStatistics.objects.get_or_create(date=date.today(), defaults={'count': 0})
+		stats = PlayerStatistics()
 		stats.count = Player.objects.count()
 		
 		stats.save()

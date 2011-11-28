@@ -23,3 +23,4 @@ class QuestState(models.Model):
 	status = models.IntegerField(choices=QUEST_STATUS, null=True)
 	start_time = models.IntegerField(null=True)
 	end_time = models.IntegerField(null=True)
+	completion_time = models.IntegerField(null=True)

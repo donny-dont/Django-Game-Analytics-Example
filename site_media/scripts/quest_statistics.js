@@ -1,11 +1,5 @@
 $(function () {
-/*
-	var data = [
-		{ label: "Accepted" , data: 200 },
-		{ label: "Declined" , data:  50 },
-		{ label: "Completed", data: 100 }
-	]
-*/	
+
 	// Query for the quest statistics
 	var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
 	
@@ -23,54 +17,34 @@ $(function () {
 		}
 	}
 	
-	var status_data = [];
-	
-	$.plot($('#completed_pie'), status_data, status_options);
-	
-	function onStatisticsDataReceived(statistics)
+	function onStatisticsDataReceived(stats)
 	{
-		$('#average_completion').text(statistics.average_completion);
-		$('#shortest_completion').text(statistics.shortest_completion);
-		$('#longest_completion').text(statistics.longest_completion);
+		$('#accepted_count').text(stats.accepted)
+		$('#rejected_count').text(stats.rejected)
+		$('#completed_count').text(stats.completed)
+		$('#not_encountered_count').text(stats.not_encountered)
+		$('#average_completion').text(stats.average_completion);
+		$('#shortest_completion').text(stats.shortest_completion);
+		$('#longest_completion').text(stats.longest_completion);
 		
-		$.plot($('#completed_pie'), statistics.status, status_options);
+		$.plot($('#completed_pie'), stats.status, status_options);
 	}
 	
-	var test1 =
+	function getStatisticsData()
 	{
-		'average_completion' : '1:34:00',
-		'shortest_completion': '0:05:00',
-		'longest_completion' : '5:22:00',
-		'status':
-		[
-			{ label: "Accepted" , data: 100 },
-			{ label: "Declined" , data: 500 },
-			{ label: "Completed", data: 350 }
-		]
-	};
-	
-	var test2 =
-	{
-		'average_completion' : '2:44:00',
-		'shortest_completion': '0:15:00',
-		'longest_completion' : '9:22:00',
-		'status':
-		[
-			{ label: "Accepted" , data: 200 },
-			{ label: "Declined" , data:  50 },
-			{ label: "Completed", data: 100 }
-		]
-	};
-	
-	onStatisticsDataReceived(test1);
-	
-	// Trigger request when the Quest option changes
-	$('#quests').change(function() {
 		$.ajax({
-			url: '/quest_statistics/',
+			url: '/quest_statistics/' + $('#quests').val(),
 			method: 'GET',
 			dataType: 'json',
 			success: onStatisticsDataReceived
 		});
+	}
+	
+	// Trigger request when the Quest option changes
+	$('#quests').change(function() {
+		getStatisticsData()
 	});
+	
+	getStatisticsData()
+	
 });

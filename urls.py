@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 	# (r'^gameanalytics/', include('gameanalytics.foo.urls')),
 	('^upload_log/$', 'game.views.upload_log'),
 	('^quests/', 'analytics.views.quests'),
-	('^quest_statistics/', 'analytics.views.quest_statistics'),
+	('^quest_statistics/(\d+)/$', 'analytics.views.quest_statistics'),
 	('^players/', 'analytics.views.players'),
 	('player_statistics/start/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/end/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/$', 'analytics.views.player_statistics'),
 	

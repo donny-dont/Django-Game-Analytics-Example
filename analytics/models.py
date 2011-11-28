@@ -2,19 +2,19 @@ from django.db import models
 from game.models import *
 
 class PlayerStatistics(models.Model):
-	date = models.DateField()
-	count = models.IntegerField()
+	date = models.DateField(auto_now_add=True)
+	count = models.IntegerField(default=0)
 	
 class QuestStatistics(models.Model):
-	date = models.DateField()
-	accepted = models.IntegerField()
-	rejected = models.IntegerField()
-	completed = models.IntegerField()
-	not_encountered = models.IntegerField()
-	average_completion_time = models.IntegerField()
-	shortest_completion_time = models.IntegerField()
-	longest_completion_time = models.IntegerField()
 	quest = models.ForeignKey(Quest)
+	date = models.DateField(auto_now_add=True)
+	accepted = models.IntegerField(default=0)
+	rejected = models.IntegerField(default=0)
+	completed = models.IntegerField(default=0)
+	not_encountered = models.IntegerField(default=0)
+	average_completion_time = models.IntegerField(default=0)
+	shortest_completion_time = models.IntegerField(default=0)
+	longest_completion_time = models.IntegerField(default=0)
 	
 class QuestCompletionTimes(models.Model):
 	min_time = models.IntegerField()

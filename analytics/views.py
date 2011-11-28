@@ -20,7 +20,6 @@ def players(request):
 		'player_statistics.html',
 		{ 'players_selected': True},
 		context_instance=RequestContext(request))
-	
 
 def to_date(year_str, month_str, day_str):
 	year = int(year_str)
@@ -45,28 +44,45 @@ def player_statistics(request, start_year, start_month, start_day, end_year, end
 	
 	return HttpResponseBadRequest()
 	
-def random_timespan(min_secs, max_secs):
-	return str(timedelta(seconds=random.randint(min_secs, max_secs)))
+def to_timespan(seconds):
+	return str(timedelta(seconds=seconds))
 	
-def quest_statistics(request):
-	response_dict = {}
-	response_dict['average_completion']  = random_timespan( 6000,  9000)
-	response_dict['shortest_completion'] = random_timespan( 1500,  4500)
-	response_dict['longest_completion']  = random_timespan(12000, 15000)
+def quest_statistics(request, quest_id):
+	try:
+		quest = Quest.objects.get(pk=quest_id)
+		stats = QuestStatistics.objects.filter(quest=quest).latest('date')
+		
+		response_dict = {}
+		response_dict['accepted'] = stats.accepted
+		response_dict['rejected'] = stats.rejected
+		response_dict['completed'] = stats.completed
+		response_dict['not_encountered'] = stats.not_encountered
+		response_dict['average_completion']  = to_timespan(stats.average_completion_time)
+		response_dict['shortest_completion'] = to_timespan(stats.shortest_completion_time)
+		response_dict['longest_completion']  = to_timespan(stats.longest_completion_time)
 
-	response_dict['status'] = [
-		{
-			'label': 'Accepted',
-			'data' : random.randint(100,1000),
-		},
-		{
-			'label': 'Declined',
-			'data' : random.randint(100,1000),
-		},
-		{
-			'label': 'Completed',
-			'data' : random.randint(100,1000),
-		},
-	]
+		response_dict['status'] = [
+			{
+				'label': 'Accepted',
+				'data' : stats.accepted,
+			},
+			{
+				'label': 'Rejected',
+				'data' : stats.rejected
+			},
+			{
+				'label': 'Completed',
+				'data' : stats.completed
+			},
+			{
+				'label': 'Not Encountered',
+				'data' : stats.not_encountered
+			}
+		]
 
-	return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
+		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
+
+	except Quest.DoesNotExist:
+		return HttpResponseBadRequest()
+	except QuestStatistics.DoesNotExist:
+		return HttpResponseBadRequest()

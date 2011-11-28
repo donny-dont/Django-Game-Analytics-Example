@@ -31,6 +31,7 @@ def log_quest_progress(time, player_id, message):
 			else:
 				quest_state.status = QuestState.COMPLETED_STATUS
 				quest_state.end_time = time.total_seconds()
+				quest_state.completion_time = quest_state.end_time - quest_state.start_time
 		
 			quest_state.save()
 			

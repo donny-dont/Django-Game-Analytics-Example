@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
 from forms import LogForm
 from utils.log import parse_log
@@ -16,4 +16,4 @@ def upload_log(request):
 		else:
 			return HttpResponseBadRequest()
 		
-	return render_to_response('upload_log.html', {'form': LogForm()})
+	return render(request, 'upload_log.html', {'form': LogForm()})

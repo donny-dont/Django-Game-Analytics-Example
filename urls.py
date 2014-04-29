@@ -1,29 +1,13 @@
-from django.conf.urls.defaults import *
-from django.conf import settings
+from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	# Example:
-	# (r'^gameanalytics/', include('gameanalytics.foo.urls')),
-	('^upload_log/$', 'game.views.upload_log'),
-	('^quests/', 'analytics.views.quests'),
-	('^quest_statistics/(\d+)/$', 'analytics.views.quest_statistics'),
-	('^players/', 'analytics.views.players'),
-	('player_statistics/start/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/end/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/$', 'analytics.views.player_statistics'),
-	
-	# Uncomment the admin/doc line below to enable admin documentation:
-	# (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-	# Uncomment the next line to enable the admin:
-	(r'^admin/', include(admin.site.urls)),
+	url('^upload_log/$', 'game.views.upload_log'),
+	url('^quests/', 'analytics.views.quests'),
+	url('^quest_statistics/(\d+)/$', 'analytics.views.quest_statistics'),
+	url('^players/', 'analytics.views.players'),
+	url('player_statistics/start/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/end/(\d\d\d\d)/(\d{1,2})/(\d{1,2})/$', 'analytics.views.player_statistics'),
+  url(r'^admin/', include(admin.site.urls)),
 )
-
-if settings.DEBUG:
-	urlpatterns += patterns('',
-		(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
-		'django.views.static.serve',
-		{'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-	)

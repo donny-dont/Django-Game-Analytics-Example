@@ -1,10 +1,10 @@
 from datetime import *
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseBadRequest
 from models import *
 from game.models import *
+import json
 import random
 
 def quests(request):
@@ -40,7 +40,7 @@ def player_statistics(request, start_year, start_month, start_day, end_year, end
 		for statistic in player_statistics:
 			response.append({'date': str(statistic.date), 'count': statistic.count})
 
-		return HttpResponse(simplejson.dumps(response), mimetype='application/javascript')
+		return HttpResponse(json.dumps(response), mimetype='application/javascript')
 	
 	return HttpResponseBadRequest()
 	
@@ -80,7 +80,7 @@ def quest_statistics(request, quest_id):
 			}
 		]
 
-		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
+		return HttpResponse(json.dumps(response_dict), mimetype='application/javascript')
 
 	except Quest.DoesNotExist:
 		return HttpResponseBadRequest()
